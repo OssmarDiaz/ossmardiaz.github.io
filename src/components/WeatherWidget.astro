@@ -1,0 +1,16 @@
+---
+const ciudad = "Mexico City"
+const lat = 19.4326
+const lon = -99.1332
+---
+<div>
+  <div class="text-sm text-gray-600">Clima en {ciudad}</div>
+  <div id="wx" class="font-semibold">Cargando…</div>
+  <script>
+    (async () => {
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`;
+      const r = await fetch(url); const j = await r.json();
+      document.getElementById('wx').textContent = Math.round(j.current_weather.temperature) + "°C";
+    })();
+  </script>
+</div>

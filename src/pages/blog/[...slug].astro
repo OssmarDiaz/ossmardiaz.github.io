@@ -1,0 +1,22 @@
+---
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+// Renderiza el contenido del MD a un componente listo:
+const { Content } = await post.render();
+const when = post.data.pubDate ?? post.data.date;
+
+---
+<main class="mx-auto max-w-3xl p-6 space-y-6">
+  <h1 class="text-3xl font-bold">{post.data.title}</h1>
+  {when && <div class="text-sm text-gray-500">{new Date(when).toDateString()}</div>}
+  <Content />
+</main>

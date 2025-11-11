@@ -1,0 +1,16 @@
+---
+import { getCollection } from 'astro:content'
+const posts = (await getCollection('blog')).sort((a,b)=> +b.data.pubDate - +a.data.pubDate)
+---
+<main class="mx-auto max-w-3xl p-6 space-y-6">
+  <h1 class="text-3xl font-bold">Blog</h1>
+  <ul class="space-y-4">
+    {posts.map(p => (
+      <li>
+        <a href={`/blog/${p.slug}/`} class="text-indigo-600 hover:underline">{p.data.title}</a>
+        <div class="text-sm text-gray-500">{p.data.pubDate.toDateString()}</div>
+        {p.data.excerpt && <p>{p.data.excerpt}</p>}
+      </li>
+    ))}
+  </ul>
+</main>

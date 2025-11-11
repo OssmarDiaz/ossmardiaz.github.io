@@ -1,0 +1,60 @@
+---
+import GameMenu from "../components/GameMenu.vue"
+import WeatherWidget from "../components/WeatherWidget.astro"
+import WebGLCanvas from "../components/WebGLCanvas.vue"
+import { getCollection } from "astro:content"
+import Base from "../layouts/Base.astro";
+
+
+const posts = (await getCollection('blog'))
+  .sort((a,b)=> +b.data.pubDate - +a.data.pubDate)
+  .slice(0,3)
+const projects = (await getCollection('projects')).slice(0,6)
+---
+<Base title="Inicio — Ossmar">
+<main class="mx-auto max-w-6xl p-6 space-y-10">
+    <GameMenu client:load />
+  <section>
+    <h1 class="text-3xl font-bold">Hola, soy Ossmar</h1>
+    <p>Gráficos por computadora • VFX • GPU • WebGL</p>
+  </section>
+
+  <section id="portfolio" class="space-y-4">
+    <h2 class="text-2xl font-semibold">Proyectos</h2>
+    <ul class="grid md:grid-cols-3 gap-6">
+      {projects.map(p => (
+        <li class="rounded-xl border p-4">
+          <a href={`/portfolio/${p.slug}/`} class="font-semibold hover:underline">{p.data.name}</a>
+          {p.data.summary && <p class="text-sm mt-1">{p.data.summary}</p>}
+          {p.data.tech && <div class="text-xs text-gray-500 mt-2">{p.data.tech.join(' · ')}</div>}
+        </li>
+      ))}
+    </ul>
+    <a href="/portfolio/" class="text-indigo-600 hover:underline">Ver todo →</a>
+  </section>
+
+  <section class="space-y-4">
+    <h2 class="text-2xl font-semibold">Blog</h2>
+    <ul class="space-y-3">
+      {posts.map(p => (
+        <li>
+          <a href={`/blog/${p.slug}/`} class="hover:underline">{p.data.title}</a>
+          <span class="text-sm text-gray-500 ml-2">{p.data.pubDate.toDateString()}</span>
+        </li>
+      ))}
+    </ul>
+    <a href="/blog/" class="text-indigo-600 hover:underline">Entradas recientes →</a>
+  </section>
+
+  <section class="grid md:grid-cols-2 gap-6">
+    <article class="rounded-xl border p-4">
+      <h3 class="font-semibold mb-2">Clima</h3>
+      <WeatherWidget client:load />
+    </article>
+    <article class="rounded-xl border p-4">
+      <h3 class="font-semibold mb-2">WebGL</h3>
+      <WebGLCanvas client:load />
+    </article>
+  </section>
+</main>
+</Base>
