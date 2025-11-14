@@ -12,7 +12,7 @@ const posts = (await getCollection('blog'))
 const projects = (await getCollection('projects')).slice(0,6)
 ---
 <Base title="Inicio — Ossmar">
-<main class="mx-auto max-w-6xl p-6 space-y-10">
+<main class="grid grid-cols-12 p-6 space-y-10">
     <GameMenu client:load />
   <section>
     <h1 class="text-3xl font-bold">Hola, soy Ossmar</h1>

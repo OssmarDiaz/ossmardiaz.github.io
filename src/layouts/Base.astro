@@ -1,5 +1,6 @@
 ---
 // src/layouts/Base.astro
+import "../styles/global.css";
 const { title = "Mi sitio" } = Astro.props;
 ---
 <!doctype html>
@@ -9,7 +10,7 @@ const { title = "Mi sitio" } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
   </head>
-  <body class="min-h-screen">
+  <body class="grid grid-cols-12 bg-[#0b0e12] text-gray-100">
     <slot />
   </body>
 </html>
